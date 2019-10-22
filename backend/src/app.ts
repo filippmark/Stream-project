@@ -11,8 +11,8 @@ const router = new Router();
 
 const sequelize = new Sequelize("twitch", "root", "123456", {
     dialect: "mysql",
-    host: "localhost",
-    port: "33060"
+    host: "0.0.0.0",
+    port: "3310"
 });
 
 sequelize.sync().then((result: any)=>{
@@ -38,5 +38,3 @@ app.use(
 app.use(router.routes());
 
 app.listen(8081);
-
-exports.sequelize = sequelize;
