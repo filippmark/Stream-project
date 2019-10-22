@@ -9,7 +9,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
     volumes:
-      - ${DB_PATH}:/var/lib/mysql
+      - ./database:/var/lib/mysql
+    ports:
+     -  3310:3310
 
   adminer:
     image: adminer

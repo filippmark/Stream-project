@@ -5,13 +5,22 @@
   "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/app.ts"
+    "watch-server": "nodemon --exec ts-node ./src/app.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/koa-graphql": "^0.8.3",
+    "graphql": "^14.5.8",
     "koa": "^2.10.0",
-    "koa-router": "^7.4.0"
+    "koa-graphql": "^0.8.0",
+    "koa-mount": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "mysql2": "^1.7.0",
+    "pm2": "^4.1.2",
+    "save": "^2.4.0",
+    "sequelize": "^5.21.1",
+    "tsconfig-paths": "^3.9.0"
   },
   "devDependencies": {
     "@types/koa": "^2.0.51",
