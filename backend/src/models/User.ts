@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 
-class User extends Model {
+export default class User extends Model {
   public id!: number;
   public email!: string;
   public password!: string;
@@ -31,8 +31,7 @@ User.init(
     }
   },
   {
-    tableName: "users"
+    tableName: "users",
+    sequelize
   }
 );
-
-module.exports = User;

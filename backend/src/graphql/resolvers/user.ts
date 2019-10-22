@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const User = require("../../models/User");
 
 interface userInput {
   email: string;
@@ -29,7 +31,7 @@ module.exports = {
     }
   },
 
-  createNewUser: async (args: userInput): Promise<User> => {
+  createNewUser: async (args: userInput) => {
     const { email, password } = args;
     try{
       const userReged = await User.findOne({where: {email}});
