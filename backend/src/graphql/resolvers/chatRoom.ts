@@ -1,6 +1,6 @@
 const ChatRoom = require("../../models/ChatRoom");
 
-module.exports = {
+export = {
     chatRooms: async (args: any) => {
         const {userId} = args;
         

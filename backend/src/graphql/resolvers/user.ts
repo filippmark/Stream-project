@@ -7,7 +7,7 @@ interface userInput {
   password: string;
 }
 
-module.exports = {
+export = {
   login: async (args: userInput) => {
     const { email, password } = args;
     try{
