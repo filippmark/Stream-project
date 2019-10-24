@@ -1,7 +1,9 @@
-const userResolvers = require("./user");
-const chatRoomResolvers = require("./chatRoom");
+import { login, createNewUser } from "./user";
+import { chatRooms, createChatRoom } from "./chatRoom";
 
-export = {
-  ...userResolvers,
-  ...chatRoomResolvers
+export default {
+  login,
+  createNewUser,
+  chatRooms,
+  createChatRoom
 };

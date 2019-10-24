@@ -1,6 +1,6 @@
-const { buildSchema } = require("graphql");
+import { buildSchema } from "graphql";
 
-module.exports =  buildSchema(`
+export const schema = buildSchema(`
     
     input UserInput{
         email:  String!
@@ -14,29 +14,24 @@ module.exports =  buildSchema(`
     }
 
     type User{
-        _id: ID!
+        id: ID!
         email:  String!
         password: String
     }
 
-    type ChatRoomInput{
-        name: String!
-        creator: ID!
-    }
-
     type ChatRoom{
-        _id: ID!
+        id: ID!
         name: String!
     }
 
     type RootQuery{
         login(userInput: UserInput!): AuthData!
-        chatRooms(userId: ID!): [ChatRoom!]
+        chatRooms(id: ID!): [ChatRoom!]
     }
 
     type RootMutation{
         createNewUser(userInput: UserInput!): User!
-        createChatRoom(chatRoomInput: ChatRoomInput!): ChatRoom!
+        createChatRoom(name: String!): ChatRoom!
     }
 
     schema{

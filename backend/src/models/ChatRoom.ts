@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import { User} from "./User";
+import { User } from "./User";
 import { ChatRoomMember } from "./ChatRoomMembers";
 
 export class ChatRoom extends Model {
@@ -20,7 +20,8 @@ export function createChatRoomTable(sequelize: any) {
         allowNull: false
       },
       creatorId: {
-        type: DataTypes.INTEGER.UNSIGNED
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false
       }
     },
     {
@@ -31,5 +32,5 @@ export function createChatRoomTable(sequelize: any) {
 }
 
 export function belongsToManyUsers() {
-  ChatRoom.belongsToMany(User, { through:  ChatRoomMember});
+  ChatRoom.belongsToMany(User, { through: ChatRoomMember });
 }

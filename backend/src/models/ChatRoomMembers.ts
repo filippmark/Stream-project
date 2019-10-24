@@ -1,5 +1,4 @@
 import { Model, DataTypes } from "sequelize";
-import { sequelize } from "../app";
 
 export class ChatRoomMember extends Model {
   public isAdmin!: boolean;

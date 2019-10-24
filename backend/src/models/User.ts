@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import * as bcrypt from "bcrypt";
 import { ChatRoom } from "./ChatRoom";
-import {  ChatRoomMember } from "./ChatRoomMembers";
+import { ChatRoomMember } from "./ChatRoomMembers";
 
 export class User extends Model {
   public id!: number;
@@ -38,6 +38,6 @@ export function createUserTable(sequelize: any) {
   );
 }
 
-export function belongsToManyRooms(){
-  User.belongsToMany(ChatRoom, { through: ChatRoomMember })
-};
+export function belongsToManyRooms() {
+  User.belongsToMany(ChatRoom, { through: ChatRoomMember });
+}
