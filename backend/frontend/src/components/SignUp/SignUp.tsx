@@ -1,7 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import './Registration.css';
-import { request } from 'http';
+import './SignUp.css';
 
 export interface IAppProps {
 }
@@ -12,7 +11,7 @@ export interface IAppState {
     passwordRepeat: string;
 }
 
-export default class Registration extends React.Component<IAppProps, IAppState> {
+export default class SignUp extends React.Component<IAppProps, IAppState> {
 
   state = {
     email: "",

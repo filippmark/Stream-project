@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Registration from './components/Registration/Registration';
+import SignUp from './components/SignUp/SignUp';
+import SignIn from './components/SignIn/SignIn';
 import './App.css';
 
 class App extends Component<{}, {}>{
@@ -10,8 +11,8 @@ class App extends Component<{}, {}>{
       <React.Fragment>
         <Router>
           <Switch>
-            <Route path="/login"/>
-            <Route path="/signUp" component={Registration}/>
+            <Route path="/signIn" component={SignIn}/>
+            <Route path="/signUp" component={SignUp}/>
           </Switch>
         </Router>
       </React.Fragment>
