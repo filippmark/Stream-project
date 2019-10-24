@@ -1,0 +1,44 @@
+.signUpForm{
+    width: 320px;
+    height: 400px;
+    margin: 150px auto; 
+   
+}
+
+.signUpEmail, .signUpPassword{
+    width: 300px;    
+    height: 30px;
+    margin: 10px 10px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+}
+
+.signUpLabel{
+    margin-left: 10px;
+    font-size: 1.2rem;
+}
+
+.signUpBtn{
+    width: 100px;
+    height: 50px;
+    margin: 7px 100px;
+    padding: 0;
+    border: 2px solid rgb(157, 170, 247);
+    border-radius: 5%;
+    background: white;
+    color: rgb(157, 170, 247);
+    font-size: 1.2rem;
+}
+
+.signUpBtn:hover{
+    background: rgb(157, 170, 247);
+    cursor: pointer;
+    color: white;
+}
+
+.signUpError{
+    color: red;
+    margin-left: 10px;
+    height: 15px;
+    width: 310px;
+}
