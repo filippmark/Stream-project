@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import './SignUp.css';
+import { Redirect } from 'react-router';
 
 export interface IAppProps {
 }
@@ -9,6 +10,7 @@ export interface IAppState {
     email: string;
     password: string;
     passwordRepeat: string;
+    successfuly: boolean;
 }
 
 export default class SignUp extends React.Component<IAppProps, IAppState> {
@@ -16,7 +18,8 @@ export default class SignUp extends React.Component<IAppProps, IAppState> {
   state = {
     email: "",
     password: "",
-    passwordRepeat: ""
+    passwordRepeat: "",
+    successfuly: false
   }
 
   _handleClick = async (event: React.FormEvent<HTMLInputElement>) => {
@@ -37,6 +40,7 @@ export default class SignUp extends React.Component<IAppProps, IAppState> {
               }
             );
             console.log(result);
+            this.setState({...this.state, successfuly: true})
           } catch (error) {
               console.log(error.response);
               let element = document.getElementById("signUpError");
@@ -51,7 +55,7 @@ export default class SignUp extends React.Component<IAppProps, IAppState> {
     console.log(this.state);
     if ((this.state.email !== "") && (this.state.password !== "") && (this.state.passwordRepeat !== ""))
     {
-      if((this.state.password == this.state.passwordRepeat) && (this.state.password.length > 0)) {
+      if((this.state.password === this.state.passwordRepeat) && (this.state.password.length > 0)) {
         if (element !== null){
           element.innerText = "";
         }
@@ -75,25 +79,31 @@ export default class SignUp extends React.Component<IAppProps, IAppState> {
   }
 
   public render() {
-    return (
-      <React.Fragment>
-          <form className="signUpForm">
-              <label className="signUpLabel">
-                email
-              </label>
-              <input type="text" name="email" className="signUpEmail" onChange={this._handleInput}/>
-              <label className="signUpLabel">
-                  password
-              </label>
-              <input type="password" name="password" className="signUpPassword" onChange={this._handleInput}/>
-              <label className="signUpLabel">
-                  repeat password
-              </label>
-              <input type="password" name="passwordRepeat" className="signUpPassword" onChange={this._handleInput}/>
-              <div className="signUpError" id="signUpError"/>
-              <input type="submit" className="signUpBtn" onClick={this._handleClick}/>
-          </form>
-      </React.Fragment>
-    );
+
+    if (this.state.successfuly){
+      return <Redirect to={'/signIn'}/>;
+    }
+    else{
+      return (
+        <React.Fragment>
+            <form className="signUpForm">
+                <label className="signUpLabel">
+                  Email
+                </label>
+                <input type="text" name="email" className="signUpEmail" onChange={this._handleInput}/>
+                <label className="signUpLabel">
+                    Password
+                </label>
+                <input type="password" name="password" className="signUpPassword" onChange={this._handleInput}/>
+                <label className="signUpLabel">
+                    Repeat password
+                </label>
+                <input type="password" name="passwordRepeat" className="signUpPassword" onChange={this._handleInput}/>
+                <div className="signUpError" id="signUpError"/>
+                <input type="submit" className="signUpBtn" onClick={this._handleClick}/>
+            </form>
+        </React.Fragment>
+      );
+    }
   }
 }

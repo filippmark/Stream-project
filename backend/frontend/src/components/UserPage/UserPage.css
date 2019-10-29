@@ -1,0 +1,16 @@
+.userPage{
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.chatRoomsWrapper{
+    width: 25%;
+    background: #001935;
+}
+
+.chatRoomWrapper{
+    width: 75%;
+    color: whitesmoke;
+    text-align: center;
+}
