@@ -1,6 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import { User } from "./User";
 import { ChatRoomMember } from "./ChatRoomMembers";
+import { Message } from "./Message";
 
 export class ChatRoom extends Model {
   public id!: number;
@@ -31,6 +32,10 @@ export function createChatRoomTable(sequelize: any) {
   );
 }
 
-export function belongsToManyUsers() {
+export function belongsToManyUsers(){
   ChatRoom.belongsToMany(User, { through: ChatRoomMember });
+}
+
+export function roomHasManyMessages(){
+  ChatRoom.hasMany(Message);
 }

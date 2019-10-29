@@ -1,16 +1,20 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
+import * as cors from "koa-cors";
 const graphqlHTTP = require("koa-graphql");
 import * as mount from "koa-mount";
 import { schema } from "./graphql/schema/index";
 import resolvers from "./graphql/resolvers/index";
 import { Sequelize } from "sequelize";
-import { createChatRoomTable, belongsToManyUsers } from "./models/ChatRoom";
+import { createChatRoomTable, belongsToManyUsers, roomHasManyMessages } from "./models/ChatRoom";
 import { createChatRoomMemberTable } from "./models/ChatRoomMembers";
-import { createUserTable, belongsToManyRooms } from "./models/User";
+import { createUserTable, belongsToManyRooms, userHasManyMessages } from "./models/User";
+import { createMessageTable } from "./models/Message";
 
 const app = new Koa();
 const router = new Router();
+
+app.use(cors());
 
 const sequelize = new Sequelize("twitch", "root", "123456", {
   dialect: "mysql",
@@ -21,8 +25,11 @@ const sequelize = new Sequelize("twitch", "root", "123456", {
 createChatRoomMemberTable(sequelize);
 createChatRoomTable(sequelize);
 createUserTable(sequelize);
+createMessageTable(sequelize);
 belongsToManyRooms();
 belongsToManyUsers();
+roomHasManyMessages();
+userHasManyMessages();
 
 sequelize
   .sync()
@@ -39,7 +46,7 @@ app.use(
     graphqlHTTP({
       schema,
       rootValue: resolvers,
-      graphiql: true
+      graphiql: true,
     })
   )
 );

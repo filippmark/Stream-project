@@ -7,7 +7,7 @@ interface IChatRoom {
 
 export const chatRooms = async (args: any): Promise<IChatRoom[]> => {
   try {
-    const rooms = await ChatRoom.findAll({ where: { creatorId: 1 } });
+    const rooms = await ChatRoom.findAll({ where: { creatorId: 15 } });
     return rooms.map((room: { dataValues: any }) => room.dataValues);
   } catch (error) {
     throw error;
@@ -19,7 +19,7 @@ export const createChatRoom = async (args: {
 }): Promise<IChatRoom> => {
   const name = args.name;
   try {
-    const room = await ChatRoom.create({ name, creatorId: 1 });
+    const room = await ChatRoom.create({ name, creatorId: 15 });
     return room.dataValues;
   } catch (error) {
     throw error;
