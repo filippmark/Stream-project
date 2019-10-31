@@ -1,7 +1,7 @@
 import { buildSchema } from "graphql";
 
-export const schema = buildSchema(`
-    
+
+export const cleanSchema = `     
     input UserInput{
         email:  String!
         password: String
@@ -54,8 +54,16 @@ export const schema = buildSchema(`
         createMessage(messageInput: MessageInput!):Message!
     }
 
+    type Subscription {
+        messageAdded(chatRoomId: ID!): Message
+    }
+
     schema{
         query: RootQuery
         mutation: RootMutation
+        subscription: Subscription
     }
-`);
+`
+
+
+export const schema = buildSchema(cleanSchema);

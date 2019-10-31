@@ -1,16 +1,28 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import * as cors from "koa-cors";
+import { execute, subscribe } from "graphql";
+import { SubscriptionServer } from "subscriptions-transport-ws";
+import { createServer } from "http";
 const graphqlHTTP = require("koa-graphql");
-import * as mount from "koa-mount";
-import { schema } from "./graphql/schema/index";
-import resolvers from "./graphql/resolvers/index";
+import { schema, cleanSchema } from "./graphql/schema/index";
+import { usualResolvers, complexResolvers } from "./graphql/resolvers/index";
 import { Sequelize } from "sequelize";
-import { createChatRoomTable, belongsToManyUsers, roomHasManyMessages } from "./models/ChatRoom";
+import {
+  createChatRoomTable,
+  belongsToManyUsers,
+  roomHasManyMessages
+} from "./models/ChatRoom";
 import { createChatRoomMemberTable } from "./models/ChatRoomMembers";
-import { createUserTable, belongsToManyRooms, userHasManyMessages } from "./models/User";
+import {
+  createUserTable,
+  belongsToManyRooms,
+  userHasManyMessages
+} from "./models/User";
 import { createMessageTable } from "./models/Message";
+import { ApolloServer, gql, PubSub} from 'apollo-server-koa';
 
+const PORT = 8081;
 const app = new Koa();
 const router = new Router();
 
@@ -37,22 +49,25 @@ sequelize
   .catch((err: any) => console.log(err));
 
 router.get("/", async (ctx: any) => {
-  ctx.body = "Hel1lo world!";
+  ctx.body = "Hello world!";
 });
 
-app.use(
-  mount(
-    "/graphql",
-    graphqlHTTP({
-      schema,
-      rootValue: resolvers,
-      graphiql: true,
-    })
-  )
-);
+const typeDefs = gql(cleanSchema);
 
-app.use(router.routes());
+const pubSub = new PubSub();
 
-app.listen(8081);
+const server = new ApolloServer({typeDefs, resolvers: complexResolvers, context: { pubSub},});
+
+
+server.applyMiddleware({ app });
+
+const httpServer = createServer(app.callback());
+
+server.installSubscriptionHandlers(httpServer);
+
+httpServer.listen(PORT, () => {
+  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+  console.log(server.subscriptionsPath);
+})
 
 export { sequelize };

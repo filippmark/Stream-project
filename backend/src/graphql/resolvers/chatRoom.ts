@@ -5,7 +5,7 @@ interface IChatRoom {
   name: string;
 }
 
-export const chatRooms = async (args: any): Promise<IChatRoom[]> => {
+export const chatRooms = async (parent: any, args: any): Promise<IChatRoom[]> => {
   try {
     const rooms = await ChatRoom.findAll({ where: { creatorId: 15 } });
     return rooms.map((room: { dataValues: any }) => room.dataValues);
@@ -14,7 +14,7 @@ export const chatRooms = async (args: any): Promise<IChatRoom[]> => {
   }
 };
 
-export const createChatRoom = async (args: {
+export const createChatRoom = async (parent: any, args: {
   name: string;
 }): Promise<IChatRoom> => {
   const name = args.name;

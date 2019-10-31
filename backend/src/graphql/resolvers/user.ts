@@ -20,6 +20,7 @@ interface IUser {
 }
 
 export const login = async (args: {
+  parent: any,
   userInput: IUserInput;
 }): Promise<ILogin> => {
   const { email, password } = args.userInput;
@@ -49,6 +50,7 @@ export const login = async (args: {
 };
 
 export const createNewUser = async (args: {
+  parent: any,
   userInput: IUserInput;
 }): Promise<IUser> => {
   const { email, password } = args.userInput;
