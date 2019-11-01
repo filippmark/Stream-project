@@ -21,6 +21,9 @@ export interface IAppState {
 export default class ChatRoom extends React.Component<IAppProps, IAppState> {
   static contextType = Context;
 
+
+  _msgsRef: React.RefObject<HTMLInputElement> = React.createRef();
+
   state = {
       message: "",
       isVisible: false,
@@ -30,7 +33,11 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
 
 
   componentDidUpdate(){
-
+    if(this.state.isSubscribed)
+    {
+        const node  = this._msgsRef.current as HTMLDivElement;
+        node.scrollTop = node.scrollHeight;
+    }
   }
 
 
@@ -124,7 +131,7 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
         this._startSubscription();
         return (
             <div className="chatRoom">
-                <div className="chatRoomMessages">
+                <div className="chatRoomMessages" ref = {this._msgsRef}>
                     <React.Fragment>
                         {
                             this.context.lastMessages.map((message: {UserId: number; text: string}) => {
