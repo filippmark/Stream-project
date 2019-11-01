@@ -1,0 +1,24 @@
+.messageWrapper{
+    display: flex;
+}
+
+.messageSpacer{
+    flex: 1;
+}
+
+.messageText{
+    min-height: 20px;
+    min-width: 100px;
+    text-align: center;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.notUserMsg{
+    background: #001935;
+}
+
+.userMsg{
+    background: #257cdf;
+}

@@ -10,8 +10,10 @@ export default React.createContext({
         name: ""
     },
     chats: [],
+    lastMessages: [],
     setAuthorized : (newState: boolean) => {},
     setUserId: (id: number) => {},
     setChats: (chat:[]) => {},
     setSelectedChat: (chat: {name: string; id:number}) => { },
+    setLastMessages: (messages: [{text: string; UserId: number; }]) => {},
 });

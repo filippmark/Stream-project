@@ -11,6 +11,16 @@
 
 .chatRoomMessages{
     height: 96vh;
+    overflow-y: auto;
+}
+
+.chatRoomMessages::-webkit-scrollbar{
+    width: 10px;
+}
+ 
+.chatRoomMessages::-webkit-scrollbar-thumb {
+  background-color: #033e81;
+  outline: 1px solid slategrey;
 }
 
 .chatRoomControllers{
@@ -40,6 +50,7 @@
     width: 5%;
     height: 100%; 
     visibility: hidden;
+    background: #001935;
 }
 
 .makeVisible{
@@ -47,6 +58,9 @@
     cursor: pointer;  
     animation-duration: 1s;
     animation-name: zoom;
+    border: none;
+    background: #001935;
+    outline: none;
 }
 
 ::placeholder {

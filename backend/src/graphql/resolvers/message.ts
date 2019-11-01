@@ -56,7 +56,7 @@ export const lastMessages = async (
     },
     order: [["id", "DESC"]]
   });
-  return messages.map((message: any) => message.dataValues);
+  return messages.map((message: any) => message.dataValues).reverse();
 };
 
 export const Subscription = {

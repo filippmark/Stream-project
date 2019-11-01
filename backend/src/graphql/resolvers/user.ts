@@ -19,10 +19,13 @@ interface IUser {
   password: string;
 }
 
-export const login = async (args: {
-  parent: any,
+export const login = async (parent: any, args: {
+  
   userInput: IUserInput;
 }): Promise<ILogin> => {
+  
+  console.log(parent);
+  console.log(args);
   const { email, password } = args.userInput;
   try {
     let user = await User.findOne({ where: { email } });
@@ -49,10 +52,10 @@ export const login = async (args: {
   }
 };
 
-export const createNewUser = async (args: {
-  parent: any,
+export const createNewUser = async (parent: any, args: {
   userInput: IUserInput;
 }): Promise<IUser> => {
+  console.log(parent);
   const { email, password } = args.userInput;
   console.log(email);
   try {

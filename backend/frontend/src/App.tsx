@@ -6,6 +6,7 @@ import SignIn from './components/SignIn/SignIn';
 import UserPage from './components/UserPage/UserPage';
 import './App.css';
 
+export const graphqlEndPoint = "http://localhost:8081/graphql";
 
 class App extends Component<{}, {}>{
 
@@ -17,7 +18,8 @@ class App extends Component<{}, {}>{
       name: "",
       id: 0
     },
-    chats: []
+    chats: [],
+    lastMessages: []
   }
 
   _setAuthorized = (newState: boolean) => {
@@ -43,6 +45,15 @@ class App extends Component<{}, {}>{
     });
   }
 
+  _setLastMessages = (messages: [{text: string; UserId: number; }]) => {
+    console.log(messages);
+    console.log(`setting messages ${messages.length}`)
+    this.setState({
+      lastMessages: messages
+    });
+  }
+
+
   render(){
     return(
       <Context.Provider value={
@@ -52,10 +63,12 @@ class App extends Component<{}, {}>{
           isChatSelected: this.state.isChatSelected,
           chat: this.state.chat,
           chats: this.state.chats,
+          lastMessages: this.state.lastMessages,
           setAuthorized: this._setAuthorized,
           setUserId: this._setUserId,
           setChats: this._setChats,
           setSelectedChat: this._setSelectedChat,
+          setLastMessages: this._setLastMessages
         }}>
         <div className="app">
           <Router>

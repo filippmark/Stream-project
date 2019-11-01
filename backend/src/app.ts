@@ -1,7 +1,7 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import * as cors from "koa-cors";
-import { execute, subscribe } from "graphql";
+import { execute, subscribe, graphql } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { createServer } from "http";
 const graphqlHTTP = require("koa-graphql");
@@ -21,6 +21,7 @@ import {
 } from "./models/User";
 import { createMessageTable } from "./models/Message";
 import { ApolloServer, gql, PubSub} from 'apollo-server-koa';
+
 
 const PORT = 8081;
 const app = new Koa();
@@ -54,9 +55,7 @@ router.get("/", async (ctx: any) => {
 
 const typeDefs = gql(cleanSchema);
 
-const pubSub = new PubSub();
-
-const server = new ApolloServer({typeDefs, resolvers: complexResolvers, context: { pubSub},});
+const server = new ApolloServer({typeDefs: cleanSchema, resolvers: complexResolvers});
 
 
 server.applyMiddleware({ app });

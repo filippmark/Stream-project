@@ -4,7 +4,7 @@ import './UserPage.css'
 import ChatRoom from "../ChatRoom/ChatRoom";
 import ChatRoomDescription from "../ChatDescription/ChatDescription";
 import Context from '../../context/context';
-
+import { graphqlEndPoint } from "../../App";
 
 export interface IAppProps {
 }
@@ -20,7 +20,7 @@ export default class userPage extends React.Component<IAppProps> {
   _getAllChats = async () => {
     try {
       let result = await axios.post(
-        "http://localhost:8081/graphql",
+        graphqlEndPoint,
         {
             query: `
             query{

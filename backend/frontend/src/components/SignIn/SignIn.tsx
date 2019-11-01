@@ -3,6 +3,9 @@ import './SignIn.css';
 import axios from 'axios';
 import Context from "../../context/context";
 import { Redirect } from 'react-router';
+import { graphqlEndPoint } from '../../App';
+
+
 
 export interface IAppProps {
 }
@@ -58,7 +61,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     if(this._checkFieldsForCorrectness()){
         try {
             let result = await axios.post(
-              "http://localhost:8081/graphql",
+              graphqlEndPoint,
               {
                   query: `
                   query{

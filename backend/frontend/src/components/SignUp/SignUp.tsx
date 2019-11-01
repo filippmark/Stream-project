@@ -2,6 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import './SignUp.css';
 import { Redirect } from 'react-router';
+import { graphqlEndPoint } from "../../App";
 
 export interface IAppProps {
 }
@@ -27,7 +28,7 @@ export default class SignUp extends React.Component<IAppProps, IAppState> {
         if(this._checkFieldsForCorrectness()){
           try {
             let result = await axios.post(
-              "http://localhost:8081/graphql",
+              graphqlEndPoint,
               {
                   query: `
                   mutation{
