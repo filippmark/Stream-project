@@ -9,6 +9,7 @@ interface IArgsCreateMessage {
 interface IMessageInput {
   text: String;
   chatRoomId: number;
+  creatorId: number;
 }
 
 interface IMessage {
@@ -33,11 +34,12 @@ export const createMessage = async (
   parent: any,
   args: IArgsCreateMessage
 ): Promise<IMessage> => {
-  const { text, chatRoomId } = args.messageInput;
+  console.log(args.messageInput);
+  const { text, chatRoomId, creatorId } = args.messageInput;
   const message = await Message.create({
     text,
     ChatRoomId: chatRoomId,
-    UserId: 15
+    UserId: creatorId
   });
   console.log(message.dataValues);
   await pubSub.publish("messageAdded", { messageAdded: message.dataValues });
@@ -59,13 +61,11 @@ export const lastMessages = async (
   return messages.map((message: any) => message.dataValues).reverse();
 };
 
-export const Subscription = {
-  messageAdded: {
+export const messageAdded = {
     subscribe: withFilter(
       () => pubSub.asyncIterator("messageAdded"),
       (payload, variables) => {
         return payload.messageAdded.ChatRoomId === variables.chatRoomId;
       }
     )
-  }
-};
+  };

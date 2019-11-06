@@ -9,6 +9,7 @@
 .messageText{
     min-height: 20px;
     min-width: 100px;
+    max-width: 50%;
     text-align: center;
     padding: 10px;
     margin: 5px;

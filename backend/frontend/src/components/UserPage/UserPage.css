@@ -4,7 +4,7 @@
     width: 100%;
 }
 
-.chatRoomsWrapper{
+.detailsWrapper{
     width: 25%;
     background: #001935;
 }
@@ -13,4 +13,33 @@
     width: 75%;
     color: whitesmoke;
     text-align: center;
+}
+
+.chatRoomsWrapper{
+    padding: 0px;
+    margin: 0;
+}
+
+.usersSearch{
+    min-height: 60px;    
+}
+
+.userSeachInput{
+    width: 98%;
+    box-sizing: border-box;
+    height: 40px;
+    border: none;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-left: 1%;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1.5rem;
+    color: white;
+    background: #257cdf;
+}
+
+.usersSearchResults{
+    margin: 10px;
+    padding: 0px;
 }

@@ -19,7 +19,7 @@ export default class Message extends React.Component<IAppProps, IAppState> {
   static contextType = Context;
 
   public render() {
-    if(this.context.userId !== this.props.msg.UserId){
+    if(this.context.userId == this.props.msg.UserId){
         return(
             <div className="messageWrapper">
                 <div className="messageSpacer">

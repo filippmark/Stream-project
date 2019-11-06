@@ -1,6 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import { User } from "../../models/User";
+import { Op } from 'sequelize';
 
 interface IUserInput {
   email: string;
@@ -70,3 +71,15 @@ export const createNewUser = async (parent: any, args: {
     throw err;
   }
 };
+
+
+export const usersByEmail = async (parent: any, args: { partOfName: string }): Promise<[IUser]> => {
+  try {
+    const users = User.findAll({where: {email: { [Op.like] : `%${args.partOfName}%`}}});
+    return users.map((user: { dataValues: any; }) => {
+      return { ...user.dataValues, password: null};
+    })
+  } catch (error) {
+    throw error;
+  }
+}

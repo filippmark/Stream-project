@@ -3,21 +3,63 @@ import './ChatDescription.css';
 import Context from '../../context/context';
 import axios from 'axios';
 import { graphqlEndPoint } from "../../App";
+import { SubscriptionClient } from 'subscriptions-transport-ws';
+
+const GRAPHQL_ENDPOINT = 'ws://localhost:8081/graphql';
+
+const client = new SubscriptionClient(GRAPHQL_ENDPOINT, {
+    reconnect: true
+});
+
 
 export interface IAppProps {
     name: string,
     id: number,
+    amountOfUsers: number;
+    creatorId: number;
 }
 
 export interface IAppState {
+  lastMessage: string;
 }
 
-export default class App extends React.Component<IAppProps, IAppState> {
+export default class ChatDescription extends React.Component<IAppProps, IAppState> {
 
-    static contextType = Context;   
+  static contextType = Context;   
+
+  state = {
+    lastMessage: ""
+  }
+
+
+  componentDidMount() {
+    this._setLastMessage();
+    this._startSubscription();
+  }
+  
+  componentWillUnmount(){
+    client.unsubscribeAll();
+  }
+
+  _startSubscription = () => {
+
+        const subscription = client.request({ query: this._subscriptionToGraphql() })
+        const add = this._addNewMsgBySubscription;
+        subscription.subscribe({
+            next({data}) {
+                if (data){
+                    console.log(data);
+                    add(data.messageAdded.text);
+                }
+            }
+        })
+  }
+
+  _addNewMsgBySubscription = (lastMessage: string) => {
+    this.setState({lastMessage});
+  }
 
   _clickHandler = async (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    console.log(event.currentTarget);
     let element: HTMLElement = event.currentTarget;
     if (this.context.isChatSelected){
         let selectedChat = document.getElementById(`chatDesc-${this.context.chat.id}`);
@@ -51,17 +93,48 @@ export default class App extends React.Component<IAppProps, IAppState> {
       return error;
     }
   }
+
+
+  _setLastMessage = async () => {
+    const message = await this._queryMessages(1, this.props.id);
+    if(message.length > 0){
+      this.setState({lastMessage: message[0].text});
+    }
+  }
  
+
+  _subscriptionToGraphql = () : string => {
+    return `
+        subscription{
+            messageAdded(chatRoomId: ${this.props.id}){
+                text
+                UserId
+            }
+        }
+    `
+  }
+
+  _getChatName = (name: string) : string => {
+    if (this.props.amountOfUsers === 2){
+      const names = name.split(" "); 
+      return this.context.userId === this.props.creatorId ? names[1] : names[0];
+    }else{
+      if(this.props.amountOfUsers === 1){
+        return name.split(" ")[0];
+      }
+      return name;
+    }
+  }
+
   public render() {
     return (
-      <div className="chatDescription" onClick={this._clickHandler} id={`chatDesc-${this.props.id}`}>
+      <div className="chatDescription" onClick={this._clickHandler} id={`chatDescription-${this.props.id}`}>
          <div className="chatTitle">
-             {this.props.name}
+             {this._getChatName(this.props.name)}
          </div>
          <div className="chatLastMessage">
-             last message
+             {this.state.lastMessage}
          </div>
-         
       </div>
     );
   }

@@ -1,0 +1,26 @@
+.usersSearchResult{
+    list-style: none;
+    height: 60px;
+    padding: 0px;
+    color: white;
+    font-size: 1.2rem;
+    padding-left: 5px;
+}
+
+.usersSearchResult:hover{
+    box-sizing: border-box;
+    background: #257cdf;
+    border-radius: 5px;
+}
+
+.userSearchResultEmail, .userSearchResultStartMail{
+    list-style: none;
+}
+
+.createDialog:hover{
+    cursor: pointer;
+}
+
+.userSearchDetails{
+    padding: 0;
+}

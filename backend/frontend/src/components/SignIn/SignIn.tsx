@@ -73,7 +73,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                   }`,
               }
             );
-            console.log(result.data.data.login.userId);
+            localStorage.setItem("auth", JSON.stringify( result.data.data.login));
             this.context.setUserId(result.data.data.login.userId);
             this.context.setAuthorized(true);
             this.setState({...this.state, id: result.data.data.login.userId})

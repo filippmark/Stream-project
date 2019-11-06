@@ -22,6 +22,16 @@ class App extends Component<{}, {}>{
     lastMessages: []
   }
 
+  componentDidMount(){
+     if(localStorage.getItem("auth") !== null)
+     {
+       const userData = JSON.parse(localStorage.getItem("auth") as string);
+       this._setAuthorized(true);
+       this._setUserId(parseInt(userData.userId));
+     }
+  }
+
+
   _setAuthorized = (newState: boolean) => {
     console.log(`setting authorized value ${newState}`);
     this.setState({isAuthorized: newState});

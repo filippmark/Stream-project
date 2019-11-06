@@ -1,6 +1,6 @@
-import { login, createNewUser } from "./user";
-import { chatRooms, createChatRoom } from "./chatRoom";
-import { createMessage, lastMessages, Subscription } from './message';
+import { login, createNewUser, usersByEmail } from "./user";
+import { chatRooms, createChatRoom, isExistChatRoom, chatCreated } from "./chatRoom";
+import { createMessage, lastMessages, messageAdded } from './message';
 
 export const usualResolvers = {
   login,
@@ -9,19 +9,27 @@ export const usualResolvers = {
   createChatRoom,
   createMessage,
   lastMessages,
-  Subscription
+  Subscription:{
+    messageAdded,
+    chatCreated
+  }
 };
 
 export const complexResolvers = {
   RootQuery: {
     login,
     chatRooms,
-    lastMessages
+    lastMessages,
+    usersByEmail,
+    isExistChatRoom
   },
   RootMutation:{
     createMessage,
     createNewUser,
     createChatRoom
   },
-  Subscription
+  Subscription:{
+    messageAdded,
+    chatCreated
+  }
 }

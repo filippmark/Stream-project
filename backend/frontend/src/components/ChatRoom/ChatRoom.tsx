@@ -28,9 +28,9 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
       message: "",
       isVisible: false,
       isSubscribed: false,
-      messages: []
+      messages: [],
+      subscribedChatId: 0
   }
-
 
   componentDidUpdate(){
     if(this.state.isSubscribed)
@@ -40,10 +40,11 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
     }
   }
 
-
-
   _startSubscription = () => {
-    if(!this.state.isSubscribed){
+    if ((!this.state.isSubscribed) || (this.context.chat.id !== this.state.subscribedChatId)){
+        if ((this.context.chat.id !== this.state.subscribedChatId)){
+            client.unsubscribeAll();
+        }
         const subscription = client.request({ query: this._subscriptionToGraphql() })
         const add = this._addNewMsg;
         subscription.subscribe({
@@ -54,7 +55,7 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
                 }
             }
         })
-        this.setState({isSubscribed: true});
+        this.setState({isSubscribed: true, subscribedChatId: this.context.chat.id, messages: []});
     }
   }
 
@@ -64,7 +65,6 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
   }
 
   _handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.currentTarget.value);
     if((!this.state.isVisible) && (event.currentTarget.value.length > 0)){
         let element : HTMLElement = document.getElementById("sendMsg") as HTMLInputElement;
         element.className = " makeVisible";
@@ -83,8 +83,9 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
     const response = this._sendMessage(this.state.message);
     const element : HTMLInputElement = document.getElementById("chatRoomTxtArea") as HTMLInputElement;
     element.value = "";
-    let btn : HTMLElement = document.getElementById("sendMsg") as HTMLInputElement;
+    let btn : HTMLElement = document.getElementById("sendMsg") as HTMLDivElement;
     btn.className = "chatRoomSendMessage";
+    this.setState({isVisible: false});
   }
 
 
@@ -108,7 +109,7 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
   _mutationToGraphql = (text: string) : string => {
     return `
         mutation{
-            createMessage(messageInput: {chatRoomId: ${this.context.chat.id}, text: "${text}"}){
+            createMessage(messageInput: {chatRoomId: ${this.context.chat.id}, text: "${text}", creatorId:${this.context.userId}}){
                 text
             }
         }
@@ -116,11 +117,11 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
   }
 
   _subscriptionToGraphql = () : string => {
-      console.log(this.context.chat.id);
     return `
         subscription{
             messageAdded(chatRoomId: ${this.context.chat.id}){
                 text
+                UserId
             }
         }
     `
@@ -131,18 +132,21 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
         this._startSubscription();
         return (
             <div className="chatRoom">
+                <div className="spacerChatroom">
+
+                </div>
                 <div className="chatRoomMessages" ref = {this._msgsRef}>
                     <React.Fragment>
                         {
-                            this.context.lastMessages.map((message: {UserId: number; text: string}) => {
-                                return <Message msg={message} />
+                            this.context.lastMessages.map((message: {UserId: number; text: string}, index: number) => {
+                                return <Message msg={message} key={`${message.UserId}-${index}`} />
                             })
                         }
                     </React.Fragment>
                     <React.Fragment>
                         {
-                            this.state.messages.map((message: {UserId: number; text: string}) => {
-                                return <Message msg={message} />
+                            this.state.messages.map((message: {UserId: number; text: string}, index) => {
+                                return <Message msg={message}  key={`${message.UserId}-${index}-`}/>
                             })
                         }
                     </React.Fragment>
@@ -152,7 +156,7 @@ export default class ChatRoom extends React.Component<IAppProps, IAppState> {
 
                     </textarea>
                     <button  className="chatRoomSendMessage" id="sendMsg" onClick={this._btnClickHandeler} >
-                        <img src={process.env.PUBLIC_URL + "/send-icon.png"}/>
+                        <img src={process.env.PUBLIC_URL + "/send-icon.png"} alt="sebnBtn" />
                     </button>
                 </div>
             </div>    

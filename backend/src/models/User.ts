@@ -1,4 +1,5 @@
 import { Model, DataTypes } from "sequelize";
+import { BelongsToManyGetAssociationsMixin } from 'sequelize';
 import * as bcrypt from "bcrypt";
 import { ChatRoom } from "./ChatRoom";
 import { ChatRoomMember } from "./ChatRoomMembers";
@@ -8,6 +9,8 @@ export class User extends Model {
   public id!: number;
   public email!: string;
   public password!: string;
+
+  public getChatRooms!: BelongsToManyGetAssociationsMixin<ChatRoom>; 
 }
 
 export function createUserTable(sequelize: any) {
