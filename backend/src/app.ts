@@ -1,12 +1,9 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import * as cors from "koa-cors";
-import { execute, subscribe, graphql } from "graphql";
-import { SubscriptionServer } from "subscriptions-transport-ws";
 import { createServer } from "http";
-const graphqlHTTP = require("koa-graphql");
-import { schema, cleanSchema } from "./graphql/schema/index";
-import { usualResolvers, complexResolvers } from "./graphql/resolvers/index";
+import { cleanSchema } from "./graphql/schema/index";
+import { complexResolvers } from "./graphql/resolvers/index";
 import { Sequelize } from "sequelize";
 import {
   createChatRoomTable,
@@ -20,8 +17,10 @@ import {
   userHasManyMessages
 } from "./models/User";
 import { createMessageTable } from "./models/Message";
-import { ApolloServer, gql, PubSub} from 'apollo-server-koa';
-
+import { ApolloServer, gql } from "apollo-server-koa";
+import { nms } from "./node-media-server";
+import { getUser } from "./helpers/getUser";
+import { verify }  from 'jsonwebtoken';
 
 const PORT = 8081;
 const app = new Koa();
@@ -53,10 +52,31 @@ router.get("/", async (ctx: any) => {
   ctx.body = "Hello world!";
 });
 
-const typeDefs = gql(cleanSchema);
+const server = new ApolloServer({
+  typeDefs: cleanSchema,
+  resolvers: complexResolvers,
+  context: ({ctx, connection}) => {
+    let user = null;
+    let token: string = '';
 
-const server = new ApolloServer({typeDefs: cleanSchema, resolvers: complexResolvers});
+    if(ctx){
+      token = ctx.request.header.authorization.split(" ")[1];
+    }else if(connection){
+      token = connection.context.headers.Authorization.split(" ")[1];
+    }
+    
+    
+    try {
+      if(token)
+        user = verify(token, "filimon777");
+    } catch (error) {
+      console.log(error);
+    }
 
+    console.log(user);
+    return { user };
+  }
+});
 
 server.applyMiddleware({ app });
 
@@ -65,8 +85,12 @@ const httpServer = createServer(app.callback());
 server.installSubscriptionHandlers(httpServer);
 
 httpServer.listen(PORT, () => {
-  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+  console.log(
+    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+  );
   console.log(server.subscriptionsPath);
-})
+});
 
-export { sequelize };
+nms.run();
+
+export { sequelize, httpServer };

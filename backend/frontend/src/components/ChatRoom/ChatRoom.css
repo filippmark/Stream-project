@@ -58,15 +58,25 @@
     font-size: 1.4rem;
 }
 
+.chatRoomStartGame, .chatRoomBroadcast{
+    background: #001935;
+    border: none;
+    outline: none;
+}
+
 .chatRoomSendMessage{
     width: 5%;
     height: 100%; 
-    visibility: hidden;
+    display: none;
     background: #001935;
 }
 
+.chatRoomStartGame:hover, .chatRoomBroadcast:hover{
+    cursor: pointer;
+}
+
 .makeVisible{
-    visibility: visible;
+    display: block;
     cursor: pointer;  
     animation-duration: 1s;
     animation-name: zoom;

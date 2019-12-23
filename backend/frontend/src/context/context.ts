@@ -3,6 +3,7 @@ import React from 'react';
 
 export default React.createContext({
     isAuthorized: false,
+    jwt: null,
     userId: 0,
     isChatSelected: false,
     chat: {
@@ -11,6 +12,7 @@ export default React.createContext({
     },
     chats: [],
     lastMessages: [],
+    setJwtToken: (token: any) => {},
     setAuthorized : (newState: boolean) => {},
     setUserId: (id: number) => {},
     setChats: (chat:[]) => {},

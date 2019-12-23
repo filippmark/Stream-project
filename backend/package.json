@@ -4,16 +4,18 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r ts-node/register  --timeout 10000 src/**/*.ts",
     "watch-server": "nodemon --exec ts-node ./src/app.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/jest": "^24.0.23",
     "@types/koa-cors": "0.0.0",
     "@types/koa-graphql": "^0.8.3",
     "@types/koa-mount": "^4.0.0",
+    "@types/validator": "^12.0.0",
     "apollo-server-koa": "^2.9.7",
     "bcrypt": "^3.0.6",
     "graphql": "^14.5.8",
@@ -27,16 +29,22 @@
     "koa-mount": "^4.0.0",
     "koa-router": "^7.4.0",
     "mysql2": "^1.7.0",
+    "node-media-server": "^2.1.4",
     "pm2": "^4.1.2",
     "save": "^2.4.0",
     "sequelize": "^5.21.1",
     "subscriptions-transport-ws": "^0.9.16",
-    "tsconfig-paths": "^3.9.0"
+    "tsconfig-paths": "^3.9.0",
+    "validator": "^12.1.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.3.5",
     "@types/koa": "^2.0.51",
     "@types/koa-router": "^7.0.42",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4"

@@ -1,0 +1,38 @@
+.navBar-items{
+    background: #001935;
+    border-bottom: 1px solid #257cdf;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.navBar-spacer{
+    flex: 1;
+}
+
+.navBar-item{
+    width: 80px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected{
+    background: #257cdf;
+}
+
+.navBar-item:hover{
+    background: #257cdf;
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
