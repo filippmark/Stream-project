@@ -17,7 +17,7 @@
     "@types/koa-mount": "^4.0.0",
     "@types/validator": "^12.0.0",
     "apollo-server-koa": "^2.9.7",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "graphql": "^14.5.8",
     "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^4.0.6",
